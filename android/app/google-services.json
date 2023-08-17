@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "515992855793",
+    "firebase_url": "https://uptech-ee8fe-default-rtdb.firebaseio.com",
+    "project_id": "uptech-ee8fe",
+    "storage_bucket": "uptech-ee8fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515992855793:android:6ac6c2ed54fe668a427550",
+        "android_client_info": {
+          "package_name": "com.htnguyen.uptech.uptech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "515992855793-e784qun4sm2c3nb3dsce1frlrlcs8h4e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjJ4KpaKIsC0QD4rgxVeSTuM8n-sdYPWo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "515992855793-e784qun4sm2c3nb3dsce1frlrlcs8h4e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "515992855793-b0pbnh29rrvke1c670ehcoln3u31nn7p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.htnguyen.uptech.uptech"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
