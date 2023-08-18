@@ -5,6 +5,7 @@ import 'package:UpTech/app/widgets/sort_dialog_widget.dart';
 import 'package:UpTech/models/courses/course_model.dart';
 import 'package:UpTech/models/new/news_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,200 +24,198 @@ class _GeneralPage extends State<GeneralPage> {
   Stream<SwipeRefreshState> get _stream => _controller.stream;
   GeneralBloc generalBloc = Modular.get<GeneralBloc>();
   int currentIndex = 0;
-  bool isLoading = true;
 
   @override
   void initState() {
-    generalBloc.getNews();
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
+    ));
     super.initState();
-    setState(() {
-      isLoading = false;
-    });
+    setState(() {});
+  }
+  Future<void> loadData() async {
+    await generalBloc.getNews();
   }
 
   @override
   Widget build(BuildContext context) {
-    final newList =  _getNewList();
-    final courseList = _getNewList();
-    return SafeArea(
-        bottom: true,
-        child: !isLoading ? Container(
-          color: Colors.transparent,
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              TopBar(),
-              Padding(padding: EdgeInsets.symmetric(vertical: 16)),
-              HomeSearch(),
-              DefaultTabController(
-                length: 4,
+    return FutureBuilder(
+        future: loadData(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return SafeArea(
+              bottom: true,
+              child: Container(
+                color: Colors.transparent,
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    TabBar(
-                      labelColor: Colors.blue,
-                      unselectedLabelColor: Colors.grey,
-                      isScrollable: true,
-                      labelPadding: EdgeInsets.all(20),
-                      labelStyle:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                      unselectedLabelStyle:
-                          TextStyle(fontStyle: FontStyle.normal, fontSize: 18),
-                      indicatorWeight: 2,
-                      indicatorPadding: EdgeInsets.only(right: 20),
-                      indicatorColor: Colors.blue,
-                      onTap: (index) {
-                        setState(() {
-                          currentIndex = index;
-                        });
-                      },
-                      tabs: [
-                        Row(children: [
-                          Icon(Icons.new_label),
-                          SizedBox(width: 5),
-                          Text("New")
-                        ]),
-                        Row(children: [
-                          Icon(Icons.golf_course),
-                          SizedBox(width: 5),
-                          Text("Khoá học")
-                        ]),
-                        Row(children: [
-                          Icon(Icons.travel_explore_sharp),
-                          SizedBox(width: 5),
-                          Text("Đề xuất chuyên gia")
-                        ]),
-                        Row(children: [
-                          Icon(Icons.event),
-                          SizedBox(width: 5),
-                          Text("Sự kiện")
-                        ]),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 4),
-                      child: Row(
+                    topBar(),
+                    homeSearch(),
+                    DefaultTabController(
+                      length: 4,
+                      child: Column(
                         children: [
-                          IconButton(
-                              enableFeedback: false,
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (_) => SortDialogWidget(
-                                        sortFrom: currentIndex));
-                              },
-                              icon: SvgPicture.asset(
-                                'assets/icon/ic_filter.svg',
-                                alignment: Alignment.center,
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.fill,
-                                colorFilter: ColorFilter.mode(
-                                    Colors.black, BlendMode.srcIn),
-                              )),
-                          IconButton(
-                              enableFeedback: false,
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          ListTile(
-                                            leading: new Icon(Icons.photo),
-                                            title: new Text('Photo'),
-                                            onTap: () {
-                                              Modular.to.pushNamed('/webview');
-                                            },
-                                          ),
-                                          ListTile(
-                                            leading: new Icon(Icons.music_note),
-                                            title: new Text('Music'),
-                                            onTap: () {
-                                              Modular.to.pushNamed('/home_search');
-                                            },
-                                          ),
-                                          ListTile(
-                                            leading: new Icon(Icons.videocam),
-                                            title: new Text('Video'),
-                                            onTap: () {
-                                              Modular.to.pushNamed('/signup');
-                                            },
-                                          ),
-                                          ListTile(
-                                            leading: new Icon(Icons.share),
-                                            title: new Text('Share'),
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              },
-                              icon: SvgPicture.asset(
-                                'assets/icon/ic_sort.svg',
-                                alignment: Alignment.center,
-                                width: 30,
-                                height: 30,
-                                fit: BoxFit.fill,
-                                colorFilter: ColorFilter.mode(
-                                    Colors.black, BlendMode.srcIn),
-                              ))
+                          TabBar(
+                            labelColor: Colors.blue,
+                            unselectedLabelColor: Colors.grey,
+                            isScrollable: true,
+                            labelPadding: EdgeInsets.all(8),
+                            labelStyle: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                            unselectedLabelStyle: TextStyle(
+                                fontStyle: FontStyle.normal, fontSize: 12),
+                            indicatorWeight: 2,
+                            /*indicatorPadding: EdgeInsets.only(right: 20),*/
+                            indicatorColor: Colors.blue,
+                            onTap: (index) {
+                              setState(() {
+                                currentIndex = index;
+                              });
+                            },
+                            tabs: const [
+                              Row(children: [
+                                Icon(Icons.new_label),
+                                SizedBox(width: 5),
+                                Text("New")
+                              ]),
+                              Row(children: [
+                                Icon(Icons.golf_course),
+                                SizedBox(width: 5),
+                                Text("Khoá học")
+                              ]),
+                              Row(children: [
+                                Icon(Icons.travel_explore_sharp),
+                                SizedBox(width: 5),
+                                Text("Đề xuất chuyên gia")
+                              ]),
+                              Row(children: [
+                                Icon(Icons.event),
+                                SizedBox(width: 5),
+                                Text("Sự kiện")
+                              ]),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 4),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                    enableFeedback: false,
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (_) => SortDialogWidget(
+                                              sortFrom: currentIndex));
+                                    },
+                                    icon: SvgPicture.asset(
+                                      'assets/icon/ic_filter.svg',
+                                      alignment: Alignment.center,
+                                      width: 24,
+                                      height: 24,
+                                      fit: BoxFit.fill,
+                                      colorFilter: const ColorFilter.mode(
+                                          Colors.black, BlendMode.srcIn),
+                                    )),
+                                IconButton(
+                                    enableFeedback: false,
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) {
+                                            return Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                ListTile(
+                                                  leading:
+                                                  new Icon(Icons.photo),
+                                                  title: new Text('Photo'),
+                                                  onTap: () {
+                                                    Modular.to
+                                                        .pushNamed('/webview');
+                                                  },
+                                                ),
+                                                ListTile(
+                                                  leading: new Icon(
+                                                      Icons.music_note),
+                                                  title: new Text('Music'),
+                                                  onTap: () {
+                                                    Modular.to.pushNamed(
+                                                        '/home_search');
+                                                  },
+                                                ),
+                                                ListTile(
+                                                  leading:
+                                                  new Icon(Icons.videocam),
+                                                  title: new Text('Video'),
+                                                  onTap: () {
+                                                    Modular.to
+                                                        .pushNamed('/signup');
+                                                  },
+                                                ),
+                                                ListTile(
+                                                  leading:
+                                                  new Icon(Icons.share),
+                                                  title: new Text('Share'),
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          });
+                                    },
+                                    icon: SvgPicture.asset(
+                                      'assets/icon/ic_sort.svg',
+                                      alignment: Alignment.center,
+                                      width: 24,
+                                      height: 24,
+                                      fit: BoxFit.fill,
+                                      colorFilter: const ColorFilter.mode(
+                                          Colors.black, BlendMode.srcIn),
+                                    ))
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
+                    currentIndex == 0
+                        ? _getNewList()
+                        : currentIndex == 1
+                        ? _getCourseList()
+                        : currentIndex == 2
+                        ? _getCourseList()
+                        : _getCourseList()
                   ],
                 ),
-              ),
-              currentIndex == 0
-                  ? newList
-                  : currentIndex == 1
-                      ? courseList
-                      : currentIndex == 2
-                          ? newList
-                          : newList
-            ],
-          ),
-        ) : Center(child: Text('Đang tải dữ liệu...'),));
+              )
+          );
+        }
+    );
   }
 
   Widget _getNewList() {
-    return generalBloc.listNews.length != 0
-        ? Expanded(
-            child: ListView.builder(
-              itemCount: generalBloc.listNews.length,
-              itemBuilder: (context, position) {
-                return _itemNewsWidget(generalBloc.listNews[position]);
-              },
-            ),
-          )
-        : Expanded(
-            child: Center(
-            child: Text(
-              'Không có dữ liệu',
-              style: TextStyle(color: Colors.black),
-            ),
-          ));
+    return Expanded(
+      child: ListView.builder(
+        itemCount: generalBloc.listNews.length,
+        itemBuilder: (context, position) {
+          return _itemNewsWidget(generalBloc.listNews[position]);
+        },
+      ),
+    );
   }
 
   Widget _getCourseList() {
-    return generalBloc.listCourse.length != 0
-        ? Expanded(
-            child: ListView.builder(
-              itemCount: generalBloc.listCourse.length,
-              itemBuilder: (context, position) {
-                return _itemCourseWidget(generalBloc.listCourse[position]);
-              },
-            ),
-          )
-        : Expanded(
-            child: Center(
-            child: Text(
-              'Không có dữ liệu',
-              style: TextStyle(color: Colors.black),
-            ),
-          ));
+    return Expanded(
+      child: ListView.builder(
+        itemCount: generalBloc.listCourse.length,
+        itemBuilder: (context, position) {
+          return _itemCourseWidget(generalBloc.listCourse[position]);
+        },
+      ),
+    );
   }
 
   Widget _itemNewsWidget(NewsModel news) {
@@ -354,15 +353,8 @@ class _GeneralPage extends State<GeneralPage> {
           ],
         ));
   }
-}
 
-class TopBar extends StatelessWidget {
-  const TopBar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  Widget topBar() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -375,17 +367,17 @@ class TopBar extends StatelessWidget {
               child: Image.asset(
                 'assets/images/icon_app.png',
                 alignment: Alignment.center,
-                width: 50,
-                height: 50,
+                width: 32,
+                height: 32,
                 fit: BoxFit.cover,
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 8),
               child: Text(
                 "UP TECH",
                 style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               ),
@@ -395,9 +387,9 @@ class TopBar extends StatelessWidget {
         Stack(
           children: [
             Container(
-              height: 48,
-              width: 48,
-              decoration: BoxDecoration(
+              height: 32,
+              width: 32,
+              decoration: const BoxDecoration(
                 color: Color(0xff0D6EFD),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(100),
@@ -414,8 +406,8 @@ class TopBar extends StatelessWidget {
                   icon: SvgPicture.asset(
                     'assets/images/ic_bottom_chat.svg',
                     alignment: Alignment.center,
-                    width: 48,
-                    height: 48,
+                    width: 32,
+                    height: 32,
                     fit: BoxFit.cover,
                   )),
             ),
@@ -425,8 +417,8 @@ class TopBar extends StatelessWidget {
                 child: Container(
                   height: 10,
                   width: 10,
-                  decoration: BoxDecoration(
-                    color: const Color(0xffFD1600),
+                  decoration: const BoxDecoration(
+                    color: Color(0xffFD1600),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(100),
                         topRight: Radius.circular(100),
@@ -439,21 +431,15 @@ class TopBar extends StatelessWidget {
       ],
     );
   }
-}
 
-class HomeSearch extends StatelessWidget {
-  const HomeSearch({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  Widget homeSearch() {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pushNamed('/home_search');
       },
       child: Container(
-        height: 52,
+        height: 42,
+        margin: EdgeInsets.symmetric(vertical: 16),
         padding: EdgeInsets.only(left: 10, right: 10),
         decoration: BoxDecoration(
           color: Color(0xffFFFFFFF),
@@ -478,13 +464,13 @@ class HomeSearch extends StatelessWidget {
           children: [
             const Text(
               "Cyber security",
-              style: TextStyle(fontSize: 18, color: Colors.black),
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             SvgPicture.asset(
               'assets/images/ic_search_new.svg',
               alignment: Alignment.center,
-              width: 38,
-              height: 38,
+              width: 28,
+              height: 28,
               fit: BoxFit.cover,
             ),
           ],
@@ -493,3 +479,4 @@ class HomeSearch extends StatelessWidget {
     );
   }
 }
+

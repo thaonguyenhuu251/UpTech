@@ -3,6 +3,7 @@ import 'package:UpTech/app/modules/general/general_module.dart';
 import 'package:UpTech/app/modules/notification/notification_module.dart';
 import 'package:UpTech/app/modules/profile/profile_module.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,6 +17,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
+  @override
+  void initState() {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
+    ));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +34,11 @@ class _HomePageState extends State<HomePage> {
           onTap: () {},
           child: currentIndex == 0
               ? GeneralModule()
-              : currentIndex == 1 ? NotificationModule()
-              : currentIndex == 2 ? FinanceModule()
-              : ProfileModule()),
+              : currentIndex == 1
+                  ? NotificationModule()
+                  : currentIndex == 2
+                      ? FinanceModule()
+                      : ProfileModule()),
       bottomNavigationBar: BottomNavigationBar(
           onTap: (newIndex) => setState(() => currentIndex = newIndex),
           selectedItemColor: Theme.of(context).colorScheme.onPrimary,
@@ -41,8 +53,8 @@ class _HomePageState extends State<HomePage> {
                 icon: SvgPicture.asset(
                   'assets/images/ic_bottom_home.svg',
                   alignment: Alignment.center,
-                  width: 28,
-                  height: 28,
+                  width: 24,
+                  height: 24,
                   fit: BoxFit.cover,
                   allowDrawingOutsideViewBox: true,
                   colorFilter: currentIndex == 0
@@ -54,8 +66,8 @@ class _HomePageState extends State<HomePage> {
               icon: SvgPicture.asset(
                 'assets/images/ic_bottom_notification.svg',
                 alignment: Alignment.center,
-                width: 28,
-                height: 28,
+                width: 24,
+                height: 24,
                 fit: BoxFit.cover,
                 allowDrawingOutsideViewBox: true,
                 colorFilter: currentIndex == 1
@@ -68,8 +80,8 @@ class _HomePageState extends State<HomePage> {
               icon: SvgPicture.asset(
                 'assets/images/ic_bottom_finances.svg',
                 alignment: Alignment.center,
-                width: 28,
-                height: 28,
+                width: 24,
+                height: 24,
                 allowDrawingOutsideViewBox: true,
                 fit: BoxFit.cover,
                 colorFilter: currentIndex == 2
@@ -82,8 +94,8 @@ class _HomePageState extends State<HomePage> {
               icon: SvgPicture.asset(
                 'assets/images/ic_bottom_profile.svg',
                 alignment: Alignment.center,
-                width: 28,
-                height: 28,
+                width: 24,
+                height: 24,
                 allowDrawingOutsideViewBox: true,
                 fit: BoxFit.cover,
                 colorFilter: currentIndex == 3

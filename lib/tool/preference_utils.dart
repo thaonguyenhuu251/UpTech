@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PreferenceUtils extends ChangeNotifier {
   SharedPreferences? _prefsInstance;
   static const checkUserLogin = "checkUserLogin";
+  static const userId = "userId";
 
   PreferenceUtils() {
     _init();
@@ -30,5 +31,13 @@ class PreferenceUtils extends ChangeNotifier {
 
   Future<bool> setBoolUserLogin(bool value) async {
     return _prefsInstance?.setBool(checkUserLogin, value) ?? Future.value(false);
+  }
+
+  String getString(String key, [String elseValue = ""]) {
+    return _prefsInstance?.getString(key) ?? elseValue;
+  }
+
+  Future<bool> setString(String key, String value) async {
+    return _prefsInstance?.setString(key, value) ?? Future.value(false);
   }
 }
