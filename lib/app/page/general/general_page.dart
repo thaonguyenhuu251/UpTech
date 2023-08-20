@@ -221,14 +221,10 @@ class _GeneralPage extends State<GeneralPage> {
   Widget _itemNewsWidget(NewsModel news) {
     return Container(
         margin: EdgeInsets.only(top: 10),
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(6),
         decoration: BoxDecoration(
           color: Color(0xffFFFFFFF),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-              bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20)),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.1),
@@ -244,7 +240,7 @@ class _GeneralPage extends State<GeneralPage> {
             Flexible(
                 flex: 2,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   child: Image.network(news.urlNews),
                 )),
             Padding(padding: EdgeInsets.all(5)),

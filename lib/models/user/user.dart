@@ -37,7 +37,7 @@ class UserModel {
     'userPhone': userPhone,
     'userEmail': userEmail,
     'userPassword': userPassword,
-    'imageUrl': userPoint,
+    'userPoint': userPoint,
     'userImage': userImage,
   };
 

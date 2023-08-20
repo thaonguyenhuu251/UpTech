@@ -11,6 +11,7 @@ class AuthMethods {
     required String? phone,
     required String? email,
     required String? password,
+    required int birthDay,
   }) async {
     String result = 'Some error occurred';
     try {
@@ -23,7 +24,7 @@ class AuthMethods {
         UserModel userModel = UserModel(
             idUser: user.user!.uid,
             userName: name!,
-            userBirthday: 99999999999999,
+            userBirthday: birthDay,
             userPhone: phone!,
             userEmail: email,
             userPassword: password,
