@@ -34,7 +34,8 @@ class _LoginPageState extends State<LoginPage> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
     if (result == 'success') {
       authenticated.setBool(PreferenceUtils.checkUserLogin, true);
-      Navigator.pop(context);
+      authenticated.setString(PreferenceUtils.userId, AuthMethods().auth.currentUser?.uid ?? "");
+      Navigator.pop(context, result);
     }
   }
 

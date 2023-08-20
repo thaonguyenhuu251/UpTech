@@ -1,3 +1,4 @@
+import 'package:UpTech/app/page/profile/profile_bloc.dart';
 import 'package:UpTech/app/page/profile/profile_page.dart';
 import 'package:UpTech/app/page/setting/setting_page.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,9 @@ class ProfileModule extends WidgetModule {
 
   ProfileModule({super.key});
   @override
-  List<Bind> get binds => [];
+  List<Bind> get binds => [
+    Bind((i) => ProfileBloc(i()), isLazy: true, isSingleton: false),
+  ];
 
   @override
   Widget get view => Navigator(

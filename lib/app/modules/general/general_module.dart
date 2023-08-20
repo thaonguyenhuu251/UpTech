@@ -1,6 +1,7 @@
 import 'package:UpTech/app/page/general/general_bloc.dart';
 import 'package:UpTech/app/page/general/general_page.dart';
 import 'package:UpTech/app/page/messenger/message_page.dart';
+import 'package:UpTech/app/page/profile/profile_bloc.dart';
 import 'package:UpTech/app/page/search/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -16,7 +17,6 @@ class GeneralModule extends WidgetModule {
   ];
 
   @override
-  // TODO: implement view
   Widget get view => Navigator(
     key: _generalNavigator,
     initialRoute: '/',

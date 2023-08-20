@@ -23,11 +23,15 @@
 .idea/libraries/Dart_Packages.xml
 .idea/libraries/Dart_SDK.xml
 .idea/libraries/Flutter_Plugins.xml
+android/local.properties
+android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
 build/e29aedf18e567df5728f6b7ce57d2e97.cache.dill.track.dill
 build/last_build_run.json
 build/1db5a300054b79909fec2652f32ecfa3/_composite.stamp
 build/1db5a300054b79909fec2652f32ecfa3/gen_dart_plugin_registrant.stamp
 build/1db5a300054b79909fec2652f32ecfa3/gen_localizations.stamp
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/Generated.xcconfig
 build/ios/pod_inputs.fingerprint
 build/ios/Debug-iphonesimulator/.last_build_id
 build/ios/Debug-iphonesimulator/abseil/absl.framework/absl

@@ -28,7 +28,9 @@ class GeneralBloc extends Disposable {
 
       jsonNews.forEach((key, value) {
         final news = NewsModel.fromJson(value);
-        listNews.add(news);
+        if(!listNews.contains(news)) {
+          listNews.add(news);
+        }
       });
 
       final snapshotCourse = await coursesDao.getMessageQuery().get();
@@ -36,14 +38,14 @@ class GeneralBloc extends Disposable {
 
       jsonCourse.forEach((key, value) {
         final coursesDao = CourseModel.fromJson(value);
-        listCourse.add(coursesDao);
+        if(!listCourse.contains(coursesDao)) {
+          listCourse.add(coursesDao);
+        }
       });
     } catch (e) {
       print(e);
       AlertController.show("Error", e.toString(), TypeAlert.error);
     }
-    print(listNews.length);
-    print(listCourse.length);
     app.setLoad(false);
   }
 
