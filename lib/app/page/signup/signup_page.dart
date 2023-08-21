@@ -28,7 +28,7 @@ class SignUpState extends State<SignUp> {
   String? passValidate;
   String? confirmValidate;
 
-  DateTime? _chosenDateTime;
+  DateTime _chosenDateTime = DateTime(2000, 01, 01);
 
   void _showDatePicker(ctx) {
     showModalBottomSheet(
@@ -43,8 +43,9 @@ class SignUpState extends State<SignUp> {
                     child: CupertinoDatePicker(
                         mode: CupertinoDatePickerMode.date,
                         minimumYear: 1900,
-                        maximumYear: 2100,
-                        initialDateTime: DateTime.now(),
+                        maximumYear: DateTime.now().year - 10,
+                        maximumDate: DateTime.now(),
+                        initialDateTime: _chosenDateTime,
                         onDateTimeChanged: (val) {
                           setState(() {
                             _chosenDateTime = val;
@@ -55,7 +56,7 @@ class SignUpState extends State<SignUp> {
                     child: const Text('OK'),
                     onPressed: () => {
                       birthcontroller.text =
-                          '${_chosenDateTime?.day}/${_chosenDateTime?.month}/${_chosenDateTime?.year}',
+                          '${_chosenDateTime.day}/${_chosenDateTime.month}/${_chosenDateTime.year}',
                       Navigator.of(ctx).pop()
                     },
                   )
@@ -141,6 +142,49 @@ class SignUpState extends State<SignUp> {
 
   }
 
+  OutlineInputBorder borderFocus(){ //return type is OutlineInputBorder
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.red));
+  }
+
+  OutlineInputBorder borderEnabled(){
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.blue));
+  }
+
+  OutlineInputBorder borderError(){
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(
+            color: MaterialStateColor.resolveWith((states) =>
+            states.contains(MaterialState.focused)
+                ? Colors.red
+                : Colors.blue
+            )));
+  }
+
+  Widget titleWidget(String title) {
+    return Padding(
+        padding: EdgeInsets.only(bottom: 8),
+        child: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+          ),
+          textAlign: TextAlign.start,
+        )
+    );
+  }
+
+  @override
+  void initState() {
+    birthcontroller.text = '${_chosenDateTime.day}/${_chosenDateTime.month}/${_chosenDateTime.year}';
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final emailField = TextField(
@@ -162,23 +206,10 @@ class SignUpState extends State<SignUp> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Email Here",
           errorText: emailValidate,
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                  color: MaterialStateColor.resolveWith((states) =>
-                  states.contains(MaterialState.focused)
-                      ? Colors.red
-                      : Colors.blue
-                  ))),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.red)),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.red)),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.blue))),
+          errorBorder: borderError(),
+          border: borderEnabled(),
+          focusedBorder: borderFocus(),
+          enabledBorder: borderEnabled()),
     );
 
     final name = TextField(
@@ -200,24 +231,10 @@ class SignUpState extends State<SignUp> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Name Here",
           errorText: nameValidate,
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                  color: MaterialStateColor.resolveWith((states) =>
-                  states.contains(MaterialState.focused)
-                      ? Colors.red
-                      : Colors.blue
-              ))),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.red)),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.red)),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.blue))),
-
+          errorBorder: borderError(),
+          border: borderEnabled(),
+          focusedBorder: borderFocus(),
+          enabledBorder: borderEnabled()),
     );
 
     final birthDay = GestureDetector(
@@ -242,23 +259,10 @@ class SignUpState extends State<SignUp> {
             contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             hintText: "dd/mm/yyyy",
             errorText: birthValidate,
-            errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(
-                    color: MaterialStateColor.resolveWith((states) =>
-                    states.contains(MaterialState.focused)
-                        ? Colors.red
-                        : Colors.blue
-                    ))),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(color: Colors.red)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(color: Colors.red)),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(color: Colors.blue))),
+            errorBorder: borderError(),
+            border: borderEnabled(),
+            focusedBorder: borderFocus(),
+            enabledBorder: borderEnabled()),
       ),
     );
 
@@ -283,23 +287,10 @@ class SignUpState extends State<SignUp> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Mobile Here",
           errorText: mobileValidate,
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                  color: MaterialStateColor.resolveWith((states) =>
-                  states.contains(MaterialState.focused)
-                      ? Colors.red
-                      : Colors.blue
-                  ))),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.red)),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.red)),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.blue))),
+          errorBorder: borderError(),
+          border: borderEnabled(),
+          focusedBorder: borderFocus(),
+          enabledBorder: borderEnabled()),
     );
 
     final passwordField = TextField(
@@ -338,23 +329,10 @@ class SignUpState extends State<SignUp> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Password Here",
           errorText: passValidate,
-          errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                  color: MaterialStateColor.resolveWith((states) =>
-                  states.contains(MaterialState.focused)
-                      ? Colors.red
-                      : Colors.blue
-                  ))),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.red)),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.red)),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.blue))),
+          errorBorder: borderError(),
+          border: borderEnabled(),
+          focusedBorder: borderFocus(),
+          enabledBorder: borderEnabled()),
     );
 
     final confirmPasswordField = TextField(
@@ -391,23 +369,10 @@ class SignUpState extends State<SignUp> {
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         hintText: "Confirm Password",
         errorText: confirmValidate,
-        errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(
-                color: MaterialStateColor.resolveWith((states) =>
-                states.contains(MaterialState.focused)
-                    ? Colors.red
-                    : Colors.blue
-                ))),
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Colors.red)),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Colors.red)),
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Colors.blue)),
+          errorBorder: borderError(),
+          border: borderEnabled(),
+          focusedBorder: borderFocus(),
+          enabledBorder: borderEnabled(),
       ),
     );
 
@@ -438,20 +403,26 @@ class SignUpState extends State<SignUp> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 16.0),
+                  titleWidget('Your name'),
                   name,
                   SizedBox(height: 16.0),
+                  titleWidget('Your birthday'),
                   birthDay,
                   SizedBox(height: 16.0),
+                  titleWidget('Your number phone'),
                   mobile,
                   SizedBox(height: 16.0),
+                  titleWidget('Your email'),
                   emailField,
                   SizedBox(height: 16.0),
+                  titleWidget('Password'),
                   passwordField,
                   SizedBox(height: 16.0),
+                  titleWidget('Confirm password'),
                   confirmPasswordField,
                   SizedBox(height: 35.0,),
                   loginButon,

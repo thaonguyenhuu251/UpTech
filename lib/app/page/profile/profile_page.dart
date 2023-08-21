@@ -154,8 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     resultLogin = await Modular.to.pushNamed('/login') as String;
     if(resultLogin == "success") {
       setState(() {
-        profileBloc.getProfiles(authenticated.getString(PreferenceUtils.userId));
-        userModel = profileBloc.userModel;
+        loadData();
       });
     }
   }

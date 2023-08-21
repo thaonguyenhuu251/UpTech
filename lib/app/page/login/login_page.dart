@@ -22,6 +22,19 @@ class _LoginPageState extends State<LoginPage> {
   int buttonColor = 0xff26A9FF;
 
   bool inputTextNotNull = false;
+  bool _confirmVisibility = true;
+
+  OutlineInputBorder borderFocus(){ //return type is OutlineInputBorder
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.grey));
+  }
+
+  OutlineInputBorder borderEnabled(){
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.grey));
+  }
 
   void _logInUser() async {
     String result = await AuthMethods().logInUser(
@@ -96,29 +109,29 @@ class _LoginPageState extends State<LoginPage> {
                       height: deviseWidth * .14,
                       decoration: BoxDecoration(
                         color: Color(0xffE8E8E8),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Center(
-                          child: TextField(
-                            onChanged: (text) {
-                              setState(() {
-                                if (text.isNotEmpty && passwordController.text.isNotEmpty) {
-                                  inputTextNotNull = true;
-                                } else {
-                                  inputTextNotNull = false;
-                                }
-                              });
-                            },
-                            obscureText: false,
-                            controller: usernameController,
-                            style: TextStyle(
-                              fontSize: deviseWidth * .040,
-                            ),
-                            decoration: InputDecoration.collapsed(
-                              hintText: 'Phone number , email or username',
-                            ),
+                      child: Center(
+                        child: TextField(
+                          onChanged: (text) {
+                            setState(() {
+                              if (text.isNotEmpty && passwordController.text.isNotEmpty) {
+                                inputTextNotNull = true;
+                              } else {
+                                inputTextNotNull = false;
+                              }
+                            });
+                          },
+                          obscureText: false,
+                          controller: usernameController,
+                          style: TextStyle(
+                            fontSize: deviseWidth * .040,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: 'Phone number , email or username',
+                            border: borderEnabled(),
+                            focusedBorder: borderFocus(),
+                            enabledBorder: borderEnabled(),
                           ),
                         ),
                       ),
@@ -131,29 +144,45 @@ class _LoginPageState extends State<LoginPage> {
                       height: deviseWidth * .14,
                       decoration: BoxDecoration(
                         color: Color(0xffE8E8E8),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Center(
-                          child: TextField(
-                            onChanged: (text) {
-                              setState(() {
-                                if (text.isNotEmpty && usernameController.text.isNotEmpty) {
-                                  inputTextNotNull = true;
-                                } else {
-                                  inputTextNotNull = false;
-                                }
-                              });
-                            },
-                            controller: passwordController,
-                            obscureText: true,
-                            style: TextStyle(
-                              fontSize: deviseWidth * .040,
+                      child: Center(
+                        child: TextField(
+                          onChanged: (text) {
+                            setState(() {
+                              if (text.isNotEmpty && usernameController.text.isNotEmpty) {
+                                inputTextNotNull = true;
+                              } else {
+                                inputTextNotNull = false;
+                              }
+                            });
+                          },
+                          controller: passwordController,
+                          obscureText: _confirmVisibility,
+                          style: TextStyle(
+                            fontSize: deviseWidth * .040,
+                          ),
+                          decoration: InputDecoration(
+                            filled: false,
+                            hintText: 'Password',
+                            suffixIcon: IconButton(
+                              icon: _confirmVisibility
+                                  ? Icon(Icons.visibility_off)
+                                  : Icon(Icons.visibility),
+                              onPressed: () {
+                                _confirmVisibility = !_confirmVisibility;
+                                setState(() {
+
+                                });
+                              },
                             ),
-                            decoration: InputDecoration.collapsed(
-                              hintText: 'Password',
-                            ),
+                            suffixIconColor: MaterialStateColor.resolveWith((states) =>
+                            states.contains(MaterialState.focused)
+                                ? Colors.blue
+                                : Colors.grey),
+                            border: borderEnabled(),
+                            focusedBorder: borderFocus(),
+                            enabledBorder: borderEnabled(),
                           ),
                         ),
                       ),
